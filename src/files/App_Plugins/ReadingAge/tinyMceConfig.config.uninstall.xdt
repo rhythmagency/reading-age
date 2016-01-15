@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tinymceConfig>
+	<commands>
+		<command xdt:Transform="Remove" xdt:Locator="Condition(umbracoAlias/text()='rhythmReadingAge')" />
+	</commands>
+
+	<plugins>
+		<plugin xdt:Transform="Remove" xdt:Locator="Condition(text()='rhythmReadingAge') />
+	</plugins>
+
+	<customConfig>
+		<config xdt:Transform="Remove" xdt:Locator="Condition(@key='statusbar') />
+	</customConfig>
+</tinymceConfig>

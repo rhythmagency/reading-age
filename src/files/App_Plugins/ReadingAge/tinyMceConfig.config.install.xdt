@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<tinymceConfig>
+	<commands>
+		<command xdt:Transform="Insert">
+			<umbracoAlias>rhythmReadingAge</umbracoAlias>
+			<icon>images/editor/reading-glasses.png</icon>
+			<tinyMceCommand value="" userInterface="false" frontendCommand="rhythmReadingAge">rhythmReadingAge</tinyMceCommand>
+			<priority>75</priority>
+		</command>
+	</commands>
+
+	<plugins>
+		<plugin xdt:Transform="Insert" loadOnFrontend="true">rhythmReadingAge</plugin>
+	</plugins>
+
+	<customConfig>
+		<config xdt:Transform="InsertIfMissing" key="statusbar">true</config>
+	</customConfig>
+</tinymceConfig>
