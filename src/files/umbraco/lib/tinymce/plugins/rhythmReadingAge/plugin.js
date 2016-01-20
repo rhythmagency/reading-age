@@ -433,11 +433,7 @@ var ReadingAge = {
     }
 };
 
-//var mceReadingAge = {};
-
-tinymce.PluginManager.add('mceReadingAge', function (editor, url) {
-
-    //mceReadingAge.Editor = editor;
+tinymce.PluginManager.add('rhythmReadingAge', function (editor, url) {
 
     var getReadingAgeData = function () {
         var content = editor.getContent();
@@ -445,19 +441,19 @@ tinymce.PluginManager.add('mceReadingAge', function (editor, url) {
     }
 
     // Add a button that opens a window
-    editor.addButton('mceReadingAge', {
+    editor.addButton('rhythmReadingAge', {
         title: 'Check reading age',
         image: '/umbraco/images/editor/reading-glasses.png',
         onclick: function () {
             var html = ReadingAge.toHTML(getReadingAgeData());
             //editor.windowManager.alert(html);
-            mceReadingAge.Window = editor.windowManager.open({
+            var reportWindow = editor.windowManager.open({
                 title: "Reading Age Report",
                 url: 'javascript:""',
                 width: 700,
                 height: 700
             });
-            $(mceReadingAge.Window.getEl()).find('iframe').contents().find('body').append(html);
+            $(reportWindow.getEl()).find('iframe').contents().find('body').append(html);
         },
     });
 

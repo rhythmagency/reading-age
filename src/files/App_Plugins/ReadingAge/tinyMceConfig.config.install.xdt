@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<tinymceConfig>
+<tinymceConfig xmlns:xdt="http://schemas.microsoft.com/XML-Document-Transform">
 	<commands>
 		<command xdt:Transform="Insert">
 			<umbracoAlias>rhythmReadingAge</umbracoAlias>
@@ -14,6 +14,6 @@
 	</plugins>
 
 	<customConfig>
-		<config xdt:Transform="InsertIfMissing" key="statusbar">true</config>
+		<config xdt:Transform="Insert" key="statusbar">true</config>
 	</customConfig>
 </tinymceConfig>

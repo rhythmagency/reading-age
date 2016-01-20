@@ -25,11 +25,7 @@
         /// </returns>
         public string Alias()
         {
-            var packageName = "ReadingAge";
-            var actionName = typeof(TransformXmlFile).Name;
-            var aliasFormat = "{0}.{1}";
-            var alias = string.Format(aliasFormat, packageName, actionName);
-            return alias;
+            return "ReadingAge.TransformXmlFile";
         }
 
 
@@ -58,7 +54,9 @@
         /// </returns>
         public bool Execute(string packageName, XmlNode xmlData)
         {
-            Transform(xmlData, true);
+            var fileToTransform = GetAttributeValue(xmlData, "file");
+            Umbraco.Core.Logging.LogHelper.Info(typeof(TransformXmlFile), "Installing " + packageName + " - transforming " + fileToTransform);
+            Transform(xmlData, fileToTransform, true);
             return true;
         }
 
@@ -77,7 +75,9 @@
         /// </returns>
         public bool Undo(string packageName, XmlNode xmlData)
         {
-            Transform(xmlData, false);
+            var fileToTransform = GetAttributeValue(xmlData, "file");
+            Umbraco.Core.Logging.LogHelper.Info(typeof(TransformXmlFile), "Uninstalling " + packageName + " - reverting " + fileToTransform);
+            Transform(xmlData, fileToTransform, false);
             return true;
         }
 
@@ -95,21 +95,17 @@
         /// <param name="install">
         /// Install or uninstall?
         /// </param>
-        private void Transform(XmlNode xmlData, bool install)
+        private void Transform(XmlNode xmlData, string fileToTransform, bool install)
         {
-
             // Extract paths from XML.
-            var fileToTransform = GetAttributeValue(xmlData, "file");
             var transformAttribute = install
                 ? "installTransform"
                 : "uninstallTransform";
             var transformFile = GetAttributeValue(xmlData, transformAttribute);
 
-
             // Map paths.
             fileToTransform = HostingEnvironment.MapPath(fileToTransform);
             transformFile = HostingEnvironment.MapPath(transformFile);
-
 
             // Transform file.
             using (var doc = new XmlTransformableDocument())
@@ -120,7 +116,6 @@
                 transform.Apply(doc);
                 doc.Save(fileToTransform);
             }
-
         }
 
 

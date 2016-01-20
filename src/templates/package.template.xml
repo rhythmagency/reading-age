@@ -27,7 +27,7 @@
   <DataTypes />
   <!--<control></control>-->
   <Actions>
-	<Action runat="install" undo="false" alias="ReadingAge.TransformXmlFile"
+	<Action runat="install" undo="true" alias="ReadingAge.TransformXmlFile"
 		installTransform="~/App_Plugins/ReadingAge/tinyMceConfig.config.install.xdt"
 		uninstallTransform="~/App_Plugins/ReadingAge/tinyMceConfig.config.uninstall.xdt"
 		file="~/Config/tinyMceConfig.config" />
