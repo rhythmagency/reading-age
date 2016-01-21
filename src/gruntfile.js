@@ -3,7 +3,18 @@ module.exports = function(grunt) {
     // Initialize Grunt tasks.
     grunt.initConfig({
         "pkg": grunt.file.readJSON('package.json'),
-        umbracoPackage: {
+		uglify: {
+			options: {
+				// the banner is inserted at the top of the output
+				banner: ''
+			},
+			dist: {
+				files: {
+					'files/umbraco/lib/tinymce/plugins/rhythmReadingAge/plugin.min.js': [ 'files/umbraco/lib/tinymce/plugins/rhythmReadingAge/plugin.js' ]
+				}
+			}
+		},
+		umbracoPackage: {
             main: {
                 src: "./files",
                 dest: "../dist",
@@ -23,11 +34,12 @@ module.exports = function(grunt) {
     });
 
     // Load NPM tasks.
+    grunt.loadNpmTasks("grunt-contrib-uglify");
     grunt.loadNpmTasks("grunt-umbraco-package");
 
     // Register Grunt tasks.
     grunt.registerTask("default",
         // The "default" task is for general development of ReadingAge.
-        ["umbracoPackage:main"]);
+        [ "uglify:dist", "umbracoPackage:main" ]);
 
 };

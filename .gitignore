@@ -40,3 +40,6 @@ trees.config
 Website/cache/
 Website/Logs/
 Website/TEMP/
+
+# compiled js
+src/files/umbraco/lib/tinymce/plugins/rhythmReadingAge/plugin.min.js
