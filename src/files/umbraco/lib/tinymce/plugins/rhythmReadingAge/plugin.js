@@ -453,7 +453,9 @@ tinymce.PluginManager.add('rhythmReadingAge', function (editor, url) {
                 width: 700,
                 height: 700
             });
-            $(reportWindow.getEl()).find('iframe').contents().find('body').append(html);
+            $(reportWindow.getEl()).find('iframe').contents()
+                .find('head').append('<link rel="stylesheet" type="text/css" href="/App_Plugins/ReadingAge/reading-age-report.css" />').end()
+                .find('body').append(html);
         },
     });
 
