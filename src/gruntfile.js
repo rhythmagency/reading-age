@@ -20,7 +20,7 @@ module.exports = function(grunt) {
                 dest: "../dist",
                 options: {
                     name: "ReadingAge",
-                    version: "1.0.0",
+                    version: "0.2.0",
                     url: "https://github.com/rhythmagency/reading-age",
                     license: "MIT License",
                     licenseUrl: "http://opensource.org/licenses/MIT",

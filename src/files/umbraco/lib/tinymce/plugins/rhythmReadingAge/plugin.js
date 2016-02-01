@@ -8,7 +8,9 @@
  */
 
 /*global console */
-var ReadingAge = {
+
+if (typeof Rhythm == 'undefined') Rhythm = {};
+if (typeof Rhythm.ReadingAge == 'undefined') Rhythm.ReadingAge = {
     /**
      * Round a number to a given number of decimal places.
      */
@@ -101,7 +103,7 @@ var ReadingAge = {
         "use strict";
         ary.forEach(function (i) {
             if (typeof ary[i] === "string") {
-                ary[i] = ReadingAge.trimNonLetters(ary[i]);
+                ary[i] = Rhythm.ReadingAge.trimNonLetters(ary[i]);
             }
         });
         return ary;
@@ -139,7 +141,7 @@ var ReadingAge = {
         "use strict";
         var position;
         do {
-            position = ReadingAge.findFirstEmptyWord(ary); // Find the first empty word
+            position = Rhythm.ReadingAge.findFirstEmptyWord(ary); // Find the first empty word
             if (position !== -1) { // If there was one
                 ary.splice(position, 1); // Remove it
             }
@@ -165,8 +167,8 @@ var ReadingAge = {
         text = text.replace(/\n+/g, " "); // Convert new lines to spaces
         text.replace(/\s+/g, " "); // Replace all whitespace with traditional spaces, condensing multiples into one.
         words = text.split(" "); // Split the string at its spaces
-        words = ReadingAge.trimNonLettersFromArray(words); // Remove any leading/trailing non A-z a-z characters
-        words = ReadingAge.removeEmptyWords(words); // Remove any words that don't have any letters in them
+        words = Rhythm.ReadingAge.trimNonLettersFromArray(words); // Remove any leading/trailing non A-z a-z characters
+        words = Rhythm.ReadingAge.removeEmptyWords(words); // Remove any words that don't have any letters in them
         return words;
     },
 
@@ -211,7 +213,7 @@ var ReadingAge = {
         var result = [];
         aryOfWords.forEach(function (value) {
             try {
-                result.push(ReadingAge.getNumSyllablesInWord(value));
+                result.push(Rhythm.ReadingAge.getNumSyllablesInWord(value));
             } catch (e) {
                 console.log("Error in ReadingAge.getNumSyllablesPerWord");
                 console.log(e);
@@ -273,6 +275,10 @@ var ReadingAge = {
         return result;
     },
 
+    removeHtmlTags: function(text) {
+        return $("<div>" + text + "</div>").text();
+    },
+
     /**
      * Parse a passage of text, generating a set of metrics.
      *
@@ -290,18 +296,18 @@ var ReadingAge = {
         // Source
         result.source = text;
         // Sentences
-        result.sentences = ReadingAge.getSentences(text);
+        result.sentences = Rhythm.ReadingAge.getSentences(text);
         result.numSentences = result.sentences.length;
         // Words
-        result.words = ReadingAge.getWords(text);
+        result.words = Rhythm.ReadingAge.getWords(text);
         result.numWords = result.words.length;
         // Syllables
-        result.syllables = ReadingAge.getNumSyllablesPerWord(result.words);
-        result.numSyllables = ReadingAge.arrayAdd(result.syllables);
+        result.syllables = Rhythm.ReadingAge.getNumSyllablesPerWord(result.words);
+        result.numSyllables = Rhythm.ReadingAge.arrayAdd(result.syllables);
         // Complex Words
-        result.complexWordPositions = ReadingAge.getComplexWordPositions(result.syllables);
+        result.complexWordPositions = Rhythm.ReadingAge.getComplexWordPositions(result.syllables);
         result.numComplexWords = result.complexWordPositions.length;
-        result.complexWords = ReadingAge.getComplexWords(result.words, result.complexWordPositions);
+        result.complexWords = Rhythm.ReadingAge.getComplexWords(result.words, result.complexWordPositions);
         // Averages
         result.averageWordsPerSentence = result.numWords / result.numSentences;
         result.averageSyllablesPerWord = result.numSyllables / result.numWords;
@@ -326,12 +332,13 @@ var ReadingAge = {
      */
     deepParseText: function (text) {
         "use strict";
+        var cleanText = Rhythm.ReadingAge.removeHtmlTags(text);
         var result = {};
-        result = ReadingAge.parseText(text);
+        result = Rhythm.ReadingAge.parseText(cleanText);
         result.parsedSentences = [];
         result.sentences.forEach(function (value, i) {
             try {
-                result.parsedSentences.push(ReadingAge.parseText(value));
+                result.parsedSentences.push(Rhythm.ReadingAge.parseText(value));
             } catch (e) {
                 console.log("Error in ReadingAge.deepParseText loop");
                 console.log({
@@ -343,7 +350,7 @@ var ReadingAge = {
             }
         });
         // Sort the parsed sentences by fleschKincaidGradeLevel in descending order
-        result.parsedSentences.sort(ReadingAge.sortFleschKincaidGradeLevelDescending);
+        result.parsedSentences.sort(Rhythm.ReadingAge.sortFleschKincaidGradeLevelDescending);
         return result;
     },
 
@@ -377,16 +384,16 @@ var ReadingAge = {
         result.push('<h2>Averages</h2>');
         result.push('<ul>');
         if (parsedResults.averageWordsPerSentence !== undefined) {
-            result.push('<li>Average Number of Words per Sentence: ' + ReadingAge.round(parsedResults.averageWordsPerSentence, 3) + '</li>');
+            result.push('<li>Average Number of Words per Sentence: ' + Rhythm.ReadingAge.round(parsedResults.averageWordsPerSentence, 3) + '</li>');
         }
         if (parsedResults.complexWordsPerSentence !== undefined) {
-            result.push('<li>Average Number of Complex Words per Sentence: ' + ReadingAge.round(parsedResults.complexWordsPerSentence, 3) + '</li>');
+            result.push('<li>Average Number of Complex Words per Sentence: ' + Rhythm.ReadingAge.round(parsedResults.complexWordsPerSentence, 3) + '</li>');
         }
         if (parsedResults.complexWordRatio !== undefined) {
-            result.push('<li>Percentage of Complex Words: ' + ReadingAge.round(parsedResults.complexWordRatio * 100, 1) + '%</li>');
+            result.push('<li>Percentage of Complex Words: ' + Rhythm.ReadingAge.round(parsedResults.complexWordRatio * 100, 1) + '%</li>');
         }
         if (parsedResults.averageSyllablesPerWord !== undefined) {
-            result.push('<li>Average Number of Syllables per Word: ' + ReadingAge.round(parsedResults.averageSyllablesPerWord, 3) + '</li>');
+            result.push('<li>Average Number of Syllables per Word: ' + Rhythm.ReadingAge.round(parsedResults.averageSyllablesPerWord, 3) + '</li>');
         }
         result.push('</ul>');
         result.push('</section>');
@@ -395,24 +402,24 @@ var ReadingAge = {
         result.push('<h2>Reading Ease Scores</h2>');
         result.push('<ul>');
         if (parsedResults.fleschKincaidReadingEase !== undefined) {
-            result.push('<li>Flesch Kincaid Reading Ease: ' + ReadingAge.round(parsedResults.fleschKincaidReadingEase, 3) + ' (Higher is Better)</li>');
+            result.push('<li>Flesch Kincaid Reading Ease: ' + Rhythm.ReadingAge.round(parsedResults.fleschKincaidReadingEase, 3) + ' (Higher is Better)</li>');
         }
         if (parsedResults.fleschKincaidGradeLevel !== undefined) {
             result.push('<li>');
-            result.push('Flesch Kincaid Grade Level: ' + ReadingAge.round(parsedResults.fleschKincaidGradeLevel, 3) + ' (Lower is Better)');
-            result.push('<ul><li>Typically Understandable by a ' + ReadingAge.round(parsedResults.fleschKincaidGradeLevel + 5, 0) + ' Year Old. (Lower is Better)</li></ul>');
+            result.push('Flesch Kincaid Grade Level: ' + Rhythm.ReadingAge.round(parsedResults.fleschKincaidGradeLevel, 3) + ' (Lower is Better)');
+            result.push('<ul><li>Typically Understandable by a ' + Rhythm.ReadingAge.round(parsedResults.fleschKincaidGradeLevel + 5, 0) + ' Year Old. (Lower is Better)</li></ul>');
             result.push('</li>');
         }
         if (parsedResults.gunningFogIndex !== undefined) {
             result.push('<li>');
-            result.push('Gunning Fog Index: ' + ReadingAge.round(parsedResults.gunningFogIndex, 3) + ' (Lower is Better)');
-            result.push('<ul><li>Typically Understandable by a ' + ReadingAge.round(parsedResults.gunningFogIndex + 5, 0) + ' Year Old. (Lower is Better)</ul>');
+            result.push('Gunning Fog Index: ' + Rhythm.ReadingAge.round(parsedResults.gunningFogIndex, 3) + ' (Lower is Better)');
+            result.push('<ul><li>Typically Understandable by a ' + Rhythm.ReadingAge.round(parsedResults.gunningFogIndex + 5, 0) + ' Year Old. (Lower is Better)</ul>');
             result.push('</li>');
         }
         if (parsedResults.smogIndex !== undefined) {
             result.push('<li>');
-            result.push('Simple Measure Of Gobbledygook (SMOG) Index: ' + ReadingAge.round(parsedResults.smogIndex, 3) + ' (Lower is Better)');
-            result.push('<ul><li>Typically Understandable by a ' + ReadingAge.round(parsedResults.smogIndex + 5, 0) + ' Year Old. (Lower is Better)</li></ul>');
+            result.push('Simple Measure Of Gobbledygook (SMOG) Index: ' + Rhythm.ReadingAge.round(parsedResults.smogIndex, 3) + ' (Lower is Better)');
+            result.push('<ul><li>Typically Understandable by a ' + Rhythm.ReadingAge.round(parsedResults.smogIndex + 5, 0) + ' Year Old. (Lower is Better)</li></ul>');
             result.push('</li>');
         }
         result.push('</ul>');
@@ -423,7 +430,7 @@ var ReadingAge = {
             result.push('<h2>Most Complex Sentences</h2>');
             result.push('<ol>');
             parsedResults.parsedSentences.every(function (subResult, i) {
-                result.push('<li>FKGL ' + ReadingAge.round(subResult.fleschKincaidGradeLevel, 3) + ": " + subResult.source + '</li>');
+                result.push('<li>FKGL ' + Rhythm.ReadingAge.round(subResult.fleschKincaidGradeLevel, 3) + ": " + subResult.source + '</li>');
                 return i < (numComplexSentences - 1);
             });
             result.push('</ol>');
@@ -437,7 +444,7 @@ tinymce.PluginManager.add('rhythmReadingAge', function (editor, url) {
 
     var getReadingAgeData = function () {
         var content = editor.getContent();
-        return ReadingAge.deepParseText(content);
+        return Rhythm.ReadingAge.deepParseText(content);
     }
 
     // Add a button that opens a window
@@ -445,7 +452,7 @@ tinymce.PluginManager.add('rhythmReadingAge', function (editor, url) {
         title: 'Check reading age',
         image: '/umbraco/images/editor/reading-glasses.png',
         onclick: function () {
-            var html = ReadingAge.toHTML(getReadingAgeData());
+            var html = Rhythm.ReadingAge.toHTML(getReadingAgeData());
             //editor.windowManager.alert(html);
             var reportWindow = editor.windowManager.open({
                 title: "Reading Age Report",
