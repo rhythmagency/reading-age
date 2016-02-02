@@ -165,7 +165,7 @@ if (typeof Rhythm.ReadingAge == 'undefined') Rhythm.ReadingAge = {
             return [];
         }
         text = text.replace(/\n+/g, " "); // Convert new lines to spaces
-        text.replace(/\s+/g, " "); // Replace all whitespace with traditional spaces, condensing multiples into one.
+        text = text.replace(/\s+/g, " "); // Replace all whitespace with traditional spaces, condensing multiples into one.
         words = text.split(" "); // Split the string at its spaces
         words = Rhythm.ReadingAge.trimNonLettersFromArray(words); // Remove any leading/trailing non A-z a-z characters
         words = Rhythm.ReadingAge.removeEmptyWords(words); // Remove any words that don't have any letters in them
