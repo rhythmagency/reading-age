@@ -3,7 +3,7 @@
 	<commands>
 		<command xdt:Transform="Insert">
 			<umbracoAlias>rhythmReadingAge</umbracoAlias>
-			<icon>images/editor/reading-glasses.png</icon>
+			<icon>/App_Plugins/ReadingAge/reading-glasses.png</icon>
 			<tinyMceCommand value="" userInterface="false" frontendCommand="rhythmReadingAge">rhythmReadingAge</tinyMceCommand>
 			<priority>75</priority>
 		</command>

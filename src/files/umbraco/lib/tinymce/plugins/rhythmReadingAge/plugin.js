@@ -450,7 +450,7 @@ tinymce.PluginManager.add('rhythmReadingAge', function (editor, url) {
     // Add a button that opens a window
     editor.addButton('rhythmReadingAge', {
         title: 'Check reading age',
-        image: '/umbraco/images/editor/reading-glasses.png',
+        image: '/App_Plugins/ReadingAge/reading-glasses.png',
         onclick: function () {
             var html = Rhythm.ReadingAge.toHTML(getReadingAgeData());
             //editor.windowManager.alert(html);
